@@ -96,6 +96,18 @@ export default class List_page extends Component {
     this.setState({ modalVisible: false })
   }
 
+  //perform filter option in ascending and descending order
+  filterTheData(item){
+    this.setState({ showProgress: true })
+    if(item.value == 'asc')
+    this.state.list_data.sort((a, b) => (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0));
+    else
+    this.state.list_data.sort((a, b) => (b.title > a.title) ? 1 : ((a.title > b.title) ? -1 : 0));
+    setTimeout(() => {
+      this.setState({ showProgress: false })
+    }, 1000)
+  }
+
   //Design:- render design here..
   render() {
     var clickedEvent = this.state.list_data[this.state.index]
@@ -155,9 +167,7 @@ export default class List_page extends Component {
             containerStyle={styles.filter_container}
             style={{ backgroundColor: '#fafafa' }}
             dropDownStyle={{ backgroundColor: '#fafafa', }}
-            onChangeItem={item => this.setState({
-              default_date_filter: item.value
-            })}
+            onChangeItem={item => {this.filterTheData(item)}}
           /></View>
         <ScrollView style={{ flex: 3 }}>
           {searchData.map((data, index) => {
